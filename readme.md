@@ -1,4 +1,4 @@
-# Experimental extension to Orleans Grains
+# Experimental Extension to Orleans Grains
 
 ## Singleton Grain
 
