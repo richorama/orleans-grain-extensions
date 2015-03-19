@@ -40,7 +40,9 @@ namespace Two10.GrainExtensions
         public Task Renew()
         {
             if (string.IsNullOrWhiteSpace(this.leaseId)) return TaskDone.Done;
-            return blob.RenewLeaseAsync(AccessCondition.GenerateLeaseCondition(leaseId));
+            return blob.RenewLeaseAsync(AccessCondition.GenerateLeaseCondition(leaseId), 
+                new BlobRequestOptions { MaximumExecutionTime = TimeSpan.FromSeconds(5), ServerTimeout = TimeSpan.FromSeconds(5)}, 
+                null);
         }
 
 
