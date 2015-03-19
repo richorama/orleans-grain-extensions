@@ -32,18 +32,17 @@ namespace Two10.GrainExtensions
             await base.OnActivateAsync();
         }
 
-        Task Renew(object _ = null)
+        async Task Renew(object _ = null)
         { 
             try
             {
-                return this.lease.Renew();
+                await this.lease.Renew();
             }
             catch 
             {
                 // lease renewal failed, kill the grain
                 this.timer.Dispose();
                 this.DeactivateOnIdle();
-                return TaskDone.Done;
             }
         }
 
