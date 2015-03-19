@@ -4,7 +4,9 @@
 
 Orleans does not _guarantee_ a single instance of a grain. Instead it favours availability. Therefore during a network partition, multiple activations of the same grain ID may be present in the system.
 
-The `SingletonGrain` base class attempts to address this, by using Azure Blob locks to limit the number of activations to no more than one. This is at the cost of availability. If the lease is taken by another grain, or the lease taken be a grain lost in failure (up to 30 seconds by default), then the grain will throw an exception in the `ActivateAsync` method, and fail to activate. You will see an exception.
+The `SingletonGrain` base class attempts to address this, by taking out a lease on an Azure Blob to limit the number of activations to no more than one. This is at the cost of availability, an increased network traffic to the blob storage system. It also slows down activation of the grain. 
+
+If the lease is taken by another grain, or the lease taken be a grain lost in failure (up to 30 seconds by default), then the grain will throw an exception in the `ActivateAsync` method, and fail to activate. You will see an exception.
 
 ## Usage
 
