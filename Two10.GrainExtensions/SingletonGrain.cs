@@ -18,7 +18,7 @@ namespace Two10.GrainExtensions
 
         SingletonGrain()
         {
-            if (string.IsNullOrWhiteSpace(this.ConnectionString))
+            if (string.IsNullOrWhiteSpace(this.ConnectionString) && RoleEnvironment.IsAvailable)
             {
                 // attempt to load data connection string out of role environment
                 var connectionString = RoleEnvironment.GetConfigurationSettingValue("DataConnectionString");
