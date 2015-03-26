@@ -16,18 +16,6 @@ If the lease is taken by another grain, or the lease is still reserved by a grai
 /// </summary>
 public class Grain1 : SingletonGrain, IGrain1
 {
-    // you must implement a property which returns the storage connection string
-    protected override string ConnectionString 
-    {
-        get { return "UseDevelopmentStorage=true"; } 
-    }
-
-    // you must implement a property which returns the container name to use for the blob locks
-    protected override string ContainerName
-    {
-        get { return "bloblockcontainer"; }
-    }
-
     // grain methods can be added as usual
     public Task<string> Hello()
     {

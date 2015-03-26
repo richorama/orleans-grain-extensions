@@ -1,8 +1,6 @@
-﻿using Orleans;
+﻿using Microsoft.WindowsAzure.ServiceRuntime;
+using Orleans;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Two10.GrainExtensions
@@ -15,9 +13,23 @@ namespace Two10.GrainExtensions
     {
         IDisposable timer;
         BlobLease lease;
-        protected abstract string ConnectionString { get; }
-        protected abstract string ContainerName { get; }
+        protected string ConnectionString { get; set; }
+        protected string ContainerName { get; set; }
 
+        SingletonGrain()
+        {
+            if (string.IsNullOrWhiteSpace(this.ConnectionString))
+            {
+                // attempt to load data connection string out of role environment
+                var connectionString = RoleEnvironment.GetConfigurationSettingValue("DataConnectionString");
+                if (!string.IsNullOrWhiteSpace(connectionString)) this.ConnectionString = connectionString;
+            }
+
+            if (string.IsNullOrWhiteSpace(this.ContainerName))
+            {
+                this.ContainerName = "locks";
+            }
+        }
 
         public override async Task OnActivateAsync()
         {
